@@ -92,8 +92,22 @@ void SDCrawler::getFile(int index, SdFile& res)
 {
   if (files[index].isDirectory || index >= MAX_INDIR_FILES || index < 0)
     return false;  
-  
+
+  int i = 1;
   currentDir.rewind();
-  for(int i = 0; i < index; ++i)
-    res.openNext(&currentDir, O_RDONLY);
+  while(true){
+      res.openNext(&currentDir, O_RDONLY);
+      char buff[32];
+      res.getName(buff, 32);
+
+      if(i == index) break;
+      else           res.close();
+
+      ++i;
+    }
+}
+
+SDCrawler::~SDCrawler()
+{
+  currentDir.close();
 }

@@ -28,7 +28,7 @@ private:
   void pathcat(char* path, char* dir);
 
 public:
-  SDCrawler() {}
+  ~SDCrawler();
 
   int getFilesCount(){
     return currentCount;
