@@ -24,4 +24,13 @@ void Display::print(String lines[4])
       u8g2->drawStr(0,40,lines[2].c_str());
       u8g2->drawStr(0,55,lines[3].c_str());
     } while ( u8g2->nextPage() );
-}  
+}
+  
+void Display::showLogo()
+{
+    u8g2->firstPage();
+    do {
+      u8g2->setFont(u8g2_font_ncenB14_tr);
+      u8g2->drawStr(10,30,"DAS CNC");
+    } while ( u8g2->nextPage() );
+}
