@@ -34,8 +34,6 @@ void FileGetter::get(SdFile& s)
         pos = 0;
         }
       else {
-        Serial.print("opening ");
-        Serial.println(pos);
        return crawler.getFile(pos, s);
       }
   }
