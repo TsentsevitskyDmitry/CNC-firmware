@@ -1,4 +1,6 @@
+#include <AccelStepper.h>
 #include "filegetter.h"
+
 
 #define ACC 40000
 #define MAX_SPEED 5000
