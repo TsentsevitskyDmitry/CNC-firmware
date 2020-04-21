@@ -3,6 +3,8 @@
 #include "input.h"
 #include "display.h"
 
+// TODO: rewrite it with using ListChecker class
+
 class FileGetter
 {
 private:
