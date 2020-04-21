@@ -4,9 +4,9 @@ void FileGetter::get(SdFile& s)
 {
   int pos = 0;
   int fsett = 0;
+  int numlines = disp->numlines();
 
   while(1){
-    int numlines = disp->numlines();
     int filescount = crawler.getFilesCount();
     FileData* files = crawler.getFiles();
     String lines[numlines];

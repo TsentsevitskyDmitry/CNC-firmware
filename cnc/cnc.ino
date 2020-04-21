@@ -1,6 +1,7 @@
 #include <AccelStepper.h>
 #include "filegetter.h"
-
+#include "ListChecker.h"
+#include "DeviceSelector.h"
 
 #define ACC 40000
 #define MAX_SPEED 5000
@@ -18,18 +19,11 @@ struct StepInfo
 // global vars
 SdFile binFile;
 Display *disp;
+DeviceSelector DEVICE(&binFile);
 AccelStepper xStepper(1, 2, 5);
 AccelStepper yStepper(1, 3, 6);
 AccelStepper zStepper(1, 4, 7);
 bool req = true;
-
-// #define SERIAL
-
-#ifdef SERIAL
-    #define DEVICE Serial
-#else
-    #define DEVICE binFile
-#endif
 
 StepInfo ReadPacket();
 
@@ -44,34 +38,29 @@ void setup()
     yStepper.setAcceleration(ACC);
     zStepper.setAcceleration(ACC);
 
-    // setup
+    // setup source
     disp = new Display();
-    disp->showLogo();
-    FileGetter getter(disp);
+    ListChecker lc(disp);
+    String ls[] = {"Choise source:", "Serial", "SD Card"};
+    int res = lc.header_check(ls, 2);
 
-    // getting file with display and encoder
-    getter.get(binFile);
-    getter.show(binFile);
-
-    // work with file
-    Serial.println("file");
-    char buff[32];
-    binFile.getName(buff, 32);
-    Serial.println(buff);
-    Serial.println("file size");
-    Serial.println(binFile.fileSize());
-    Serial.println("file available");
-    Serial.println(binFile.available());
-    Serial.println("firts byte");
-    Serial.println((int)(binFile.read()));
+    if (res == 0){
+      // Serial as source
+      DEVICE.set(SERIAL_SOURCE);
+      while (!Serial); // wait for serial port to connect. Needed for native USB
+    }
+    else if (res ==1){
+      // File as soource
+      disp->showLogo();
+      FileGetter getter(disp);
+      getter.get(binFile);
+      getter.show(binFile);
+      DEVICE.set(SDFILE_SOURCE);
+    }
 
     // any stuff
+    disp->showLogo();
     delete disp;
-    pinMode(LED_BUILTIN, OUTPUT);
-    // while (!Serial)
-    // {
-    //   ; // wait for serial port to connect. Needed for native USB
-    // }
 }
 
 void loop()

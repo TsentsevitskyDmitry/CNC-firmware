@@ -97,8 +97,6 @@ void SDCrawler::getFile(int index, SdFile& res)
   currentDir.rewind();
   while(true){
       res.openNext(&currentDir, O_RDONLY);
-      char buff[32];
-      res.getName(buff, 32);
 
       if(i == index) break;
       else           res.close();
