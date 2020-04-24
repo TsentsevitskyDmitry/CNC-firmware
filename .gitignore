@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+#tmp files
+.DS_Store       CNC.docx        anton_last.doc  ~$ton_last.doc
+*~$*
